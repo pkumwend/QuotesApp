@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @categoryquote %>
+
+<div>
+  <%= link_to "Edit this categoryquote", edit_categoryquote_path(@categoryquote) %> |
+  <%= link_to "Back to categoryquotes", categoryquotes_path %>
+
+  <%= button_to "Destroy this categoryquote", @categoryquote, method: :delete %>
+</div>

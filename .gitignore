@@ -1,0 +1,26 @@
+# Logs and temporary files
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+
+# Local databases and uploaded files
+/storage/*
+!/storage/.keep
+
+# Secrets
+.env
+.env.*
+!.env.example
+/config/master.key
+/config/credentials/*.key
+
+# Generated dependencies and assets
+/vendor/bundle
+/vendor/ruby
+/node_modules
+/public/assets
+/public/packs
+/public/packs-test
+/coverage
+/.bundle
