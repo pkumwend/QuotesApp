@@ -10,20 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_09_18_145751) do
+ActiveRecord::Schema[8.0].define(version: 2026_10_27_094549) do
   create_table "categories", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "categoryquotes", force: :cascade do |t|
+  create_table "category_quotes", force: :cascade do |t|
     t.integer "quote_id", null: false
     t.integer "category_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["category_id"], name: "index_categoryquotes_on_category_id"
-    t.index ["quote_id"], name: "index_categoryquotes_on_quote_id"
+    t.index ["category_id"], name: "index_category_quotes_on_category_id"
+    t.index ["quote_id"], name: "index_category_quotes_on_quote_id"
   end
 
   create_table "quotes", force: :cascade do |t|
@@ -60,8 +60,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_09_18_145751) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
-  add_foreign_key "categoryquotes", "categories"
-  add_foreign_key "categoryquotes", "quotes"
+  add_foreign_key "category_quotes", "categories"
+  add_foreign_key "category_quotes", "quotes"
   add_foreign_key "quotes", "sources"
   add_foreign_key "quotes", "users"
 end
