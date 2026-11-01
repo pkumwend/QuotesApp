@@ -1,9 +1,10 @@
 class QuotesController < ApplicationController
   before_action :set_quote, only: %i[ show edit update destroy ]
+  before_action :require_login, except: [:new, :create, :show, :index]
 
   # GET /quotes or /quotes.json
   def index
-    @quotes = Quote.all
+    @quotes = Quote.where(is_public: true) 
   end
 
   # GET /quotes/1 or /quotes/1.json
@@ -13,6 +14,7 @@ class QuotesController < ApplicationController
   # GET /quotes/new
   def new
     @quote = Quote.new
+    8.times { @quote.category_quotes.build }
   end
 
   # GET /quotes/1/edit
@@ -35,6 +37,8 @@ class QuotesController < ApplicationController
   end
 
   # PATCH/PUT /quotes/1 or /quotes/1.json
+=begin
+
   def update
     respond_to do |format|
       if @quote.update(quote_params)
@@ -46,8 +50,17 @@ class QuotesController < ApplicationController
       end
     end
   end
+=end
+  def update
+    if @quote.update(quote_params)
+      redirect_to @quote, notice: "Quote successfully updated."
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end  
 
-  # DELETE /quotes/1 or /quotes/1.json
+
+# DELETE /quotes/1 or /quotes/1.json
   def destroy
     @quote.destroy!
 
@@ -65,6 +78,7 @@ class QuotesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def quote_params
-      params.expect(quote: [ :text, :pub_year, :comment, :user_id, :source_id ])
+      params.require(:quote).permit(:text, :pub_year, :comment, :source_id, :is_public,:user_id, category_quotes_attributes: [:id, :category_id, :_destroy])
+
     end
 end

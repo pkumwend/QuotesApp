@@ -1,42 +1,85 @@
-<%= form_with(model: quote) do |form| %>
-  <% if quote.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(quote.errors.count, "error") %> prohibited this quote from being saved:</h2>
+<% if @quote.errors.any? %>
+ <div class="alert alert-danger">
+ <ul>
+ <% @quote.errors.full_messages.each do |msg| %>
+ <li><%= msg %></li>
+ <% end %>
+ </ul>
+ </div>
+<% end %>
 
-      <ul>
-        <% quote.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
 
-  <div>
-    <%= form.label :text, style: "display: block" %>
-    <%= form.text_field :text %>
+<%= form_with(model: @quote, local: true) do |f| %>
+  <!-- Hidden field for user_id -->
+  <%= f.hidden_field :user_id, value: current_user.id %>
+  
+
+  <!-- Form fields associated with the quotes table -->
+  <div class="form-group" style="padding-bottom: 10px;">
+    <%= f.text_field :text, placeholder: 'quote text', class: 'form-control' %>
+  </div>
+  <div class="form-group" style="padding-bottom: 10px;">
+  <%= f.collection_select :source_id, Source.all,
+    :id, ->(source) { "#{source.fname} #{source.lname}" },
+    { include_blank: "Select a source" },
+    { class: "form-control" } %>
   </div>
 
-  <div>
-    <%= form.label :pub_year, style: "display: block" %>
-    <%= form.date_field :pub_year %>
+  <div class="form-group" style="padding-bottom: 10px;">
+    <%= f.text_area :comment, placeholder: 'Quote comment', class: 'form-control' %>
   </div>
 
-  <div>
-    <%= form.label :comment, style: "display: block" %>
-    <%= form.text_field :comment %>
+  <div class="form-group" style="padding-bottom: 10px;">
+    <%= f.text_area :pub_year, placeholder: 'publication year', class: 'form-control' %>
   </div>
 
-  <div>
-    <%= form.label :user_id, style: "display: block" %>
-    <%= form.text_field :user_id %>
+  <div class="form-check" style="padding-bottom: 10px;">
+    <%= f.label :is_public do %>
+    Public
+    <%= f.check_box :is_public, class: "form-check-input" %>
+    <% end %>
   </div>
 
-  <div>
-    <%= form.label :source_id, style: "display: block" %>
-    <%= form.text_field :source_id %>
+  <div id="categories-container">
+    <% @quote.category_quotes.each do |categoryquote| %>
+      <%= f.fields_for :category_quotes, categoryquote do |ri| %>
+        <div class="category-field row mb-2">
+          <div class="col-auto">
+            <%= ri.label :category_id, "Category", class: "form-label d-inline-block me-2" %>
+            <%= ri.select :category_id, Category.all.collect { |cat| [cat.name, cat.id] }, { include_blank: true }, class: "form-control d-inline-block" %>
+          </div>
+
+          <div class="col-auto align-self-end">
+            <%= link_to '[-] Remove this category', '#', class: 'remove-category', style: "color: red; text-decoration: none;" %> <!-- Allow users to remove a field -->
+          </div>
+        </div>
+      <% end %>
+    <% end %>
   </div>
 
-  <div>
-    <%= form.submit %>
+  <div class="mt-3">
+    
+    <%= f.submit class: 'btn btn-primary btn-lg' %>
   </div>
 <% end %>
+
+<script>
+// Wait for the document to be fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+  // Attach an event listener to detect clicks on the "Remove this category" link
+  document.addEventListener('click', function(e) {
+    if (e.target && e.target.classList.contains('remove-category')) {
+      // Prevent the default action of the link
+      e.preventDefault();
+
+      // Get all the ingredient fields
+      const categoryFields = document.querySelectorAll('.category-field');
+      // Only remove an category field if there's more than one
+      if (categoryFields.length > 1) {
+        e.target.closest('.category-field').remove();
+      }
+    }
+  });
+});
+</script>
+

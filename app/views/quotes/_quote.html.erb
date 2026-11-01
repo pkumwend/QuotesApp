@@ -8,7 +8,10 @@
     <strong>Pub year:</strong>
     <%= quote.pub_year %>
   </p>
-
+  <p>
+    <strong>Category:</strong>
+    <%= quote.categories.map(&:name).join(", ") %>
+  </p>
   <p>
     <strong>Comment:</strong>
     <%= quote.comment %>
@@ -16,12 +19,12 @@
 
   <p>
     <strong>User:</strong>
-    <%= quote.user_id %>
+    <%= quote.user.fname %>
   </p>
 
   <p>
     <strong>Source:</strong>
-    <%= quote.source_id %>
+    <%= quote.source.fname + " " + quote.source.lname%>
   </p>
 
 </div>

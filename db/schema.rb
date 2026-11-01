@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_10_27_094549) do
+ActiveRecord::Schema[8.0].define(version: 2026_11_01_163735) do
   create_table "categories", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
@@ -34,6 +34,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_27_094549) do
     t.integer "source_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "is_public", default: true, null: false
     t.index ["source_id"], name: "index_quotes_on_source_id"
     t.index ["user_id"], name: "index_quotes_on_user_id"
   end
