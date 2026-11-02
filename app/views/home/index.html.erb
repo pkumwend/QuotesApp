@@ -8,10 +8,16 @@
  <div class="card bg-body-tertiary" style="margin-bottom:10px">
  <div class="card-body">
  <h4 class="card-title"><%= quote.user.fname %></h4>
- <p class="card-text"><%= quote.text %><br />
- [<a href="/quotes/<%=quote.id %>">
+ <p class="card-text">
+   <div style="padding-bottom: 10px;">
+      <p>Source: <%= quote.source.fname %><%quote.source.lname %><%quote.source.dob %></p>
+      <p>Text: <%= quote.text%></p>
+      <p>year: <%= quote.pub_year%></p>
+      <p>Comment: <%= quote.comment%>
+   </div>
+   <br /><a href="/quotes/< %=quote.id %>">
     Read full quote
-    </a>]</p>
+    </a></p>
  </div>
  </div>
  <% end %>
