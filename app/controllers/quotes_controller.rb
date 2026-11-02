@@ -1,6 +1,6 @@
 class QuotesController < ApplicationController
   before_action :set_quote, only: %i[ show edit update destroy ]
-  before_action :require_login, except: [:new, :create, :show, :index]
+  before_action :require_login, except: [:show, :index]
 
   # GET /quotes or /quotes.json
   def index
@@ -9,6 +9,7 @@ class QuotesController < ApplicationController
 
   # GET /quotes/1 or /quotes/1.json
   def show
+    
   end
 
   # GET /quotes/new
@@ -23,7 +24,7 @@ class QuotesController < ApplicationController
 
   # POST /quotes or /quotes.json
   def create
-    @quote = Quote.new(quote_params)
+    @quote = current_user.quotes.build(quote_params)
 
     respond_to do |format|
       if @quote.save
@@ -73,8 +74,9 @@ class QuotesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_quote
-      @quote = Quote.find(params.expect(:id))
+      @quote = Quote.find(params[:id])
     end
+    
 
     # Only allow a list of trusted parameters through.
     def quote_params

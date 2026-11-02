@@ -10,14 +10,14 @@
  <h4 class="card-title"><%= quote.user.fname %></h4>
  <p class="card-text">
    <div style="padding-bottom: 10px;">
-      <p>Source: <%= quote.source.fname %><%quote.source.lname %><%quote.source.dob %></p>
+      <p>Source: <%= quote.source.fname %> <%=quote.source.lname %> <%=quote.source.dob %></p>
       <p>Text: <%= quote.text%></p>
       <p>year: <%= quote.pub_year%></p>
-      <p>Comment: <%= quote.comment%>
+      <p>Comment: <%= quote.comment%></p>
    </div>
-   <br /><a href="/quotes/< %=quote.id %>">
-    Read full quote
-    </a></p>
+   <br />
+   <%= link_to "Read full quote", quote_path(quote) %>
+   </p>
  </div>
  </div>
  <% end %>

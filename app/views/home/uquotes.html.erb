@@ -5,7 +5,7 @@
  <div class="card-body">
  <h4 class="card-title"><%= quote.text %></h4>
  <p class="card-text"><%= quote.categories.map(&:name).join(", ") %>
- <br />[<a href="/quotes/<%= quote.id %>">Read full quotes</a>]</p>
+ <br />[<%= link_to "Read full quote", quote_path(quote) %>]</p>
  </div>
  </div>
 <% end %>

@@ -17,8 +17,7 @@ a category', class: "form-control" %>
 to the view -->
  <% @quotematch.each do |quote| %>
  <h5 class="text-primary"><%= quote.text %></h5>
- <p><%= quote.categories.map(&:name).join(", ") %> [<a href="/quotes/<%= quote.id %>">Read full
-quote details</a>]</p>
+ <p><%= quote.categories.map(&:name).join(", ") %> [<%= link_to "Read full quote", quote_path(quote) %>]</p>
  <br />
  <% end %>
  <% else %>
